@@ -187,3 +187,18 @@ code --install-extension custom-quick-open-1.0.0.vsix
 
 - VS Code `1.74.0` or newer.
 - Node.js `20.0.0` or newer for local packaging/development.
+
+## Repository
+
+[GitHub repository](https://github.com/orfadida2000/custom-quick-open)
+
+## License
+
+MIT.<br>
+See **[LICENSE](LICENSE)** for details.
+
+## Author
+
+- **Name:** Or Fadida
+- **Email:** [or@fadida.net](mailto:or@fadida.net)
+- **GitHub:** [orfadida2000](https://github.com/orfadida2000)
