@@ -1,0 +1,61 @@
+{
+  "name": "custom-quick-open",
+  "displayName": "Custom Quick Open",
+  "description": "Open VS Code Quick Open prefilled from the current selection, a path-like token, or the word under the cursor.",
+  "version": "1.0.0",
+  "publisher": "orfadida",
+  "author": {
+    "name": "Or Fadida",
+    "email": "or@fadida.net"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/orfadida2000/custom-quick-open.git"
+  },
+  "icon": "assets/icon.png",
+  "engines": {
+    "vscode": "^1.74.0",
+    "node": ">=20.0.0"
+  },
+  "keywords": [
+    "quick open",
+    "go to file",
+    "ctrl p",
+    "path",
+    "selection",
+    "word under cursor",
+    "navigation",
+    "keybinding"
+  ],
+  "categories": [
+    "Other"
+  ],
+  "main": "./index.js",
+  "extensionKind": [
+    "ui"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "customQuickOpen.open",
+        "title": "Custom Quick Open: Open from Selection or Token",
+        "category": "Custom Quick Open"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "customQuickOpen.open",
+        "key": "ctrl+c ctrl+p",
+        "mac": "cmd+c cmd+p",
+        "when": "editorTextFocus"
+      }
+    ]
+  },
+  "scripts": {
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.9.2"
+  }
+}
