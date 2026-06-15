@@ -140,16 +140,16 @@ If no path-like token is found, the extension falls back to VS Code's normal wor
 Windows/Linux:
 
 ```text
-Ctrl+C Ctrl+P
+Ctrl+K Ctrl+P
 ```
 
 macOS:
 
 ```text
-Cmd+C Cmd+P
+Cmd+K Cmd+P
 ```
 
-This is a key chord. Because it starts with `Ctrl+C` / `Cmd+C`, it may interfere with normal copy behavior. You can rebind the command from VS Code's Keyboard Shortcuts UI.
+This is a key chord. Because it starts with `Ctrl+K` / `Cmd+K`, it may interfere with normal copy behavior. You can rebind the command from VS Code's Keyboard Shortcuts UI.
 
 ## Command
 
