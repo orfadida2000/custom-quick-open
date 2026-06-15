@@ -2,7 +2,7 @@
   "name": "custom-quick-open",
   "displayName": "Custom Quick Open",
   "description": "Open VS Code Quick Open prefilled from the current selection, a path-like token, or the word under the cursor.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "publisher": "orfadida",
   "author": {
     "name": "Or Fadida",
