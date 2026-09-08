@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.1.0] - 2026-09-08
+
+### Added
+
+- Added support for opening Python modules from the current selection or from the token under the cursor using the `customQuickOpen.openPythonModule` command.
+- Added default keybinding for the `customQuickOpen.openPythonModule` command:
+  - Windows/Linux: `Ctrl+K Ctrl+alt+P`
+  - macOS: `Cmd+K Cmd+alt+P`
+
 ## [1.0.0] - 2026-06-10
 
 ### Added

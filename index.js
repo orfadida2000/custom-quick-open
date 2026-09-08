@@ -1,17 +1,21 @@
 const vscode = require("vscode");
 
-const COMMAND_ID = "customQuickOpen.open";
+const OPEN_COMMAND_ID = "customQuickOpen.open";
+const OPEN_PYTHON_COMMAND_ID = "customQuickOpen.openPythonModule";
 
-const POSIX_REMOTE_NAMES = new Set([
-  "wsl",
-  "dev-container",
-  "attached-container",
-  "codespaces"
-]);
+const POSIX_REMOTE_NAMES = new Set(["wsl", "dev-container", "attached-container", "codespaces"]);
 
 function activate(context) {
-  const disposable = vscode.commands.registerCommand(COMMAND_ID, openCustomQuickOpen);
-  context.subscriptions.push(disposable);
+  const openCommandDisposable = vscode.commands.registerCommand(
+    OPEN_COMMAND_ID,
+    openCustomQuickOpen,
+  );
+  const openPythonCommandDisposable = vscode.commands.registerCommand(
+    OPEN_PYTHON_COMMAND_ID,
+    openPythonModuleQuickOpen,
+  );
+
+  context.subscriptions.push(openCommandDisposable, openPythonCommandDisposable);
 }
 
 function deactivate() {}
@@ -42,11 +46,58 @@ async function openCustomQuickOpen() {
     prefix = getWordUnderCursor(editor).trim();
   }
 
-  if (prefix) {
-    await openQuickOpen(prefix);
-  } else {
+  await openQuickOpen(prefix);
+}
+
+async function openPythonModuleQuickOpen() {
+  const strictRegex = /^\.*((?:[A-Za-z_][A-Za-z_0-9]*)(?:\.[A-Za-z_][A-Za-z_0-9]*)*)\.*$/;
+  const editor = vscode.window.activeTextEditor;
+
+  if (!editor) {
     await openQuickOpen();
+    return;
   }
+
+  // 1. Try to use highlighted text first
+  let token = getUsableSelectionText(editor);
+
+  if (token) {
+    token = validateTokenIsPythonModulePath(token);
+  }
+
+  // 2. If no selection or invalid selection, extract the module path under the cursor
+  if (!token) {
+    const permissiveRegex = /[A-Za-z0-9_.]+/;
+
+    const position = editor.selection.active;
+
+    // This regex explicitly isolates contiguous letters, numbers, underscores, and dots.
+    // It will inherently reject any string containing '/' or '\' or spaces.
+    const range = editor.document.getWordRangeAtPosition(position, permissiveRegex);
+
+    if (range) {
+      token = editor.document.getText(range);
+      token = validateTokenIsPythonModulePath(token);
+    }
+  }
+
+  // 3. Format and execute
+  token = token.replaceAll(".", "/"); // Even when the OS is Windows, paths which use '/' are valid for the 'Open File' dialog in VS Code.
+  token = token ? `${token}.py` : "";
+  await openQuickOpen(token);
+}
+
+function validateTokenIsPythonModulePath(token) {
+  const strictRegex = /^\.*((?:[A-Za-z_][A-Za-z_0-9]*)(?:\.[A-Za-z_][A-Za-z_0-9]*)*)\.*$/;
+
+  token = token.trim();
+
+  const matchResult = token.match(strictRegex);
+  if (!matchResult) {
+    return "";
+  }
+
+  return matchResult[1];
 }
 
 function getUsableSelectionText(editor) {
@@ -122,7 +173,7 @@ function extractPathTokenUnderCursor(editor, mode) {
       if (isValidPathToken(token, mode, separator, false)) {
         candidates.push({
           token,
-          score: scoreToken(token, mode, separator)
+          score: scoreToken(token, mode, separator),
         });
       }
     }
@@ -206,7 +257,7 @@ function extractBroadPathSpan(line, column, mode, separator) {
   return {
     text: line.slice(start, end),
     start,
-    end
+    end,
   };
 }
 
@@ -405,7 +456,7 @@ function openQuickOpen(prefix) {
 }
 
 function containsNewline(text) {
-  return /\r|\n/.test(text);
+  return /[\r\n]/.test(text);
 }
 
 function clamp(value, min, max) {
@@ -418,5 +469,5 @@ function rangeTouchesCursor(start, end, cursorIndex) {
 
 module.exports = {
   activate,
-  deactivate
+  deactivate,
 };

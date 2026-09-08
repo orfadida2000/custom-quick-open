@@ -1,7 +1,7 @@
 {
   "name": "custom-quick-open",
   "displayName": "Custom Quick Open",
-  "description": "Open VS Code Quick Open prefilled from the current selection, a path-like token, or the word under the cursor.",
+  "description": "Open VS Code Quick Open with multiple token extraction options that the default Quick Open doesn't support.",
   "version": "1.0.1",
   "publisher": "orfadida",
   "author": {
@@ -26,7 +26,9 @@
     "selection",
     "word under cursor",
     "navigation",
-    "keybinding"
+    "keybinding",
+    "token",
+    "python module"
   ],
   "categories": [
     "Other"
@@ -41,6 +43,11 @@
         "command": "customQuickOpen.open",
         "title": "Custom Quick Open: Open from Selection or Token",
         "category": "Custom Quick Open"
+      },
+      {
+        "command": "customQuickOpen.openPythonModule",
+        "title": "Custom Quick Open: Open Python Module from Selection or Token",
+        "category": "Custom Quick Open"
       }
     ],
     "keybindings": [
@@ -49,11 +56,21 @@
         "key": "ctrl+k ctrl+p",
         "mac": "cmd+k cmd+p",
         "when": "editorTextFocus"
+      },
+      {
+        "command": "customQuickOpen.openPythonModule",
+        "key": "ctrl+k ctrl+alt+p",
+        "mac": "cmd+k cmd+alt+p",
+        "when": "editorTextFocus"
       }
     ]
   },
   "scripts": {
-    "package": "vsce package"
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "publish:patch": "vsce publish patch",
+    "publish:minor": "vsce publish minor",
+    "publish:major": "vsce publish major"
   },
   "devDependencies": {
     "@vscode/vsce": "^3.9.2"
