@@ -2,7 +2,7 @@
   "name": "custom-quick-open",
   "displayName": "Custom Quick Open",
   "description": "Open VS Code Quick Open with multiple token extraction options that the default Quick Open doesn't support.",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "publisher": "orfadida",
   "author": {
     "name": "Or Fadida",
